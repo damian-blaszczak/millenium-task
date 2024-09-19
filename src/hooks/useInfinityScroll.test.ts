@@ -28,7 +28,7 @@ describe("useInfinityScroll", () => {
     jest.clearAllMocks();
   });
 
-  test("should call fetchTransactions when loader is intersecting and not loading", async () => {
+  it("should call fetchTransactions when loader is intersecting and not loading", async () => {
     mockFetchTransactions.mockResolvedValue([transactionMock]);
 
     renderHook(() =>
@@ -54,7 +54,7 @@ describe("useInfinityScroll", () => {
     expect(mockFetchTransactions).toHaveBeenCalledTimes(1);
   });
 
-  test("should not call fetchTransactions if filteredTransactions exist", () => {
+  it("should not call fetchTransactions if filteredTransactions exist", () => {
     renderHook(() =>
       useInfinityScroll({
         loaderRef: mockLoaderRef,
@@ -74,7 +74,7 @@ describe("useInfinityScroll", () => {
     expect(mockFetchTransactions).not.toHaveBeenCalled();
   });
 
-  test("should not fetch when already loading", async () => {
+  it("should not fetch when already loading", async () => {
     renderHook(() =>
       useInfinityScroll({
         loaderRef: mockLoaderRef,

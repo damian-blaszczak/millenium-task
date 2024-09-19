@@ -37,3 +37,12 @@ export const Grid = styled.div`
     gap: ${({ theme }) => theme.space.md}px;
   }
 `;
+
+export const StyledLoaderContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: ${({ theme }) => theme.space.xl}px;
+  margin-top: ${({ theme }) => theme.space.md}px;
+`;

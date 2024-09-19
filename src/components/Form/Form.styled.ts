@@ -4,7 +4,7 @@ export const StyledForm = styled.form`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${({ theme }) => theme.space.sm}px;
   width: 100%;
   max-width: 400px;
   align-items: center;

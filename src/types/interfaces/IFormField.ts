@@ -9,4 +9,5 @@ export interface IFormField {
   hidden?: boolean;
   placeholder?: string;
   autoComplete?: HTMLInputAutoCompleteAttribute;
+  hideArrows?: boolean;
 }

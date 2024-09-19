@@ -26,3 +26,10 @@ export const StyledTr = styled.tr`
     background-color: ${({ theme }) => theme.colors.gray};
   }
 `;
+
+export const StyledTableContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

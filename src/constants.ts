@@ -30,7 +30,8 @@ export const formFields: IFormField[] = [
     type: "number",
     name: "account",
     placeholder: "Beneficiary account number",
-    required: true
+    required: true,
+    hideArrows: true
   },
   {
     label: "Address",

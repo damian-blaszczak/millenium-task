@@ -11,7 +11,14 @@ import {
 import { useTransactions } from "./hooks/useTransactions";
 import { formFields, initialData } from "./constants";
 import { debounce } from "./utils/debounce";
-import { Layout, Container, Grid, StyledSection, Center } from "./App.styled";
+import {
+  Layout,
+  Container,
+  Grid,
+  StyledSection,
+  Center,
+  StyledLoaderContainer
+} from "./App.styled";
 
 const Table = lazy(() => import("./components/Table/Table"));
 
@@ -95,9 +102,11 @@ const App = () => {
             deleting={removing}
           />
         </Suspense>
-        <Center ref={loaderRef} aria-live="polite">
-          {loading && <Loader role="status" aria-label="Loading content" />}
-        </Center>
+        <StyledLoaderContainer>
+          <Center ref={loaderRef} aria-live="polite">
+            {loading && <Loader role="status" aria-label="Loading content" />}
+          </Center>
+        </StyledLoaderContainer>
       </Container>
       <Footer />
     </Layout>

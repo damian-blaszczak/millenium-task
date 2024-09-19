@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
   padding: ${({ theme }) => theme.space.xs}px ${({ theme }) => theme.space.sm}px;
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.space.sm}px;
   cursor: pointer;
   background-color: ${({ theme }) => theme.colors.gray};
   color: ${({ theme }) => theme.colors.black};

@@ -5,6 +5,7 @@ import { TableProps } from "../../types";
 import { theme } from "../../theme";
 import {
   StyledTable,
+  StyledTableContainer,
   StyledTd,
   StyledTh,
   StyledTr
@@ -24,14 +25,7 @@ export const TableDesktop = memo(
     if (!headers.includes("actions") && data.length && deleteItem)
       headers.push("actions");
     return (
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
-        }}
-      >
+      <StyledTableContainer>
         {title && <h2 id="desktop-table-title">{title}</h2>}
         {data.length === 0 && <h3>No data</h3>}
         <StyledTable
@@ -79,7 +73,7 @@ export const TableDesktop = memo(
             })}
           </tbody>
         </StyledTable>
-      </div>
+      </StyledTableContainer>
     );
   }
 );

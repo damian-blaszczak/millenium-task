@@ -3,7 +3,7 @@ import { Button } from "../Button/Button";
 import { Loader } from "../Loader/Loader";
 import { theme } from "../../theme";
 import { memo } from "react";
-import { Container, Tile } from "./TableMobile.styled";
+import { Container, StyledStrong, Tile } from "./TableMobile.styled";
 
 export const TableMobile = memo(
   <T extends { id: number }>({
@@ -23,10 +23,7 @@ export const TableMobile = memo(
               {Object.entries(item).map(([key, value], cellIndex) => (
                 <div key={`${key}-${cellIndex}`}>
                   <div>
-                    <strong style={{ textTransform: "capitalize" }}>
-                      {key}
-                    </strong>
-                    : {value}
+                    <StyledStrong>{key}</StyledStrong>: {value}
                   </div>
                 </div>
               ))}

@@ -13,8 +13,12 @@ export const Tile = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow.default};
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${({ theme }) => theme.space.sm}px;
   border: 1px solid ${({ theme }) => theme.colors.gray};
   width: 100%;
   max-width: 400px;
+`;
+
+export const StyledStrong = styled.strong`
+  text-transform: capitalize;
 `;
