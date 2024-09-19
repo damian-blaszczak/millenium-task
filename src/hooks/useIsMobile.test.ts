@@ -1,5 +1,6 @@
-import { renderHook, act } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { useIsMobile } from "./useIsMobile";
+import { act } from "react";
 
 const resizeWindow = (width: number) => {
   (window.innerWidth as number) = width;

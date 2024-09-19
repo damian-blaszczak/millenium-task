@@ -1,5 +1,6 @@
-import { renderHook, act } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { useInfinityScroll } from "./useInfinityScroll";
+import { act } from "react";
 
 const transactionMock = {
   id: 1,
