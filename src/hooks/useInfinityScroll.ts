@@ -31,6 +31,7 @@ export const useInfinityScroll = ({
       setHasMore(anyTransaction);
       if (anyTransaction) currentPageRef.current = currentPageRef.current + 1;
     } catch (error) {
+      setHasMore(false);
       handleError(error);
     }
   }, [fetchTransactions]);

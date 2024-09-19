@@ -1,14 +1,10 @@
 import { handleError } from "./errorHandler";
 
 describe("handleError", () => {
-  let consoleErrorSpy: jest.SpyInstance;
+  const alertMock = jest.spyOn(window, "alert").mockImplementation(() => {});
 
-  beforeEach(() => {
-    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    consoleErrorSpy.mockRestore();
+  afterAll(() => {
+    alertMock.mockRestore();
   });
 
   it.each([
@@ -19,6 +15,6 @@ describe("handleError", () => {
   ])("should log correct error message", (error) => {
     handleError(error);
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith("An error occurred:", error);
+    expect(alertMock).toHaveBeenCalledWith(`An error occurred: ${error}`);
   });
 });

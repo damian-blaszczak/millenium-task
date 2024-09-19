@@ -27,7 +27,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "json-server api/db.json --port 8000 --delay 1000"
+    "server": "json-server api/db.json --port 8000 --delay 1000",
+    "lint": "eslint ./src"
   },
   "eslintConfig": {
     "extends": [

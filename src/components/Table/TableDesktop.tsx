@@ -24,6 +24,7 @@ export const TableDesktop = memo(
     );
     if (!headers.includes("actions") && data.length && deleteItem)
       headers.push("actions");
+
     return (
       <StyledTableContainer>
         {title && <h2 id="desktop-table-title">{title}</h2>}

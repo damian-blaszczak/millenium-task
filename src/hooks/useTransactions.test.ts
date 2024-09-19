@@ -1,6 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
 import { useTransactions } from "./useTransactions";
-import { handleError } from "../utils/errorHandler";
 import {
   getTransactions,
   postTransaction,
@@ -8,7 +7,6 @@ import {
 } from "../api/requests";
 
 jest.mock("../api/requests");
-jest.mock("../utils/errorHandler");
 
 const transactionMock = {
   id: 1,
@@ -32,18 +30,12 @@ const mockedDeleteTransaction = deleteTransaction as jest.MockedFunction<
 >;
 
 describe("useTransactions", () => {
-  let loaderRef: React.RefObject<HTMLDivElement>;
-
-  beforeEach(() => {
-    loaderRef = { current: document.createElement("div") };
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it("should initialize with the correct state", () => {
-    const { result } = renderHook(() => useTransactions(loaderRef));
+    const { result } = renderHook(() => useTransactions());
 
     expect(result.current.transactions).toEqual([]);
     expect(result.current.filteredTransactions).toBeUndefined();
@@ -58,7 +50,7 @@ describe("useTransactions", () => {
   it("should handle fetchTransactions correctly", async () => {
     mockedGetTransactions.mockResolvedValue([transactionMock]);
 
-    const { result } = renderHook(() => useTransactions(loaderRef));
+    const { result } = renderHook(() => useTransactions());
 
     await act(async () => {
       await result.current.fetchTransactions({ page: 1, beneficiary: "" });
@@ -76,7 +68,7 @@ describe("useTransactions", () => {
     const newTransaction = { ...transactionMock, id: 2, amount: 200 };
     mockedPostTransaction.mockResolvedValue(newTransaction);
 
-    const { result } = renderHook(() => useTransactions(loaderRef));
+    const { result } = renderHook(() => useTransactions());
 
     await act(async () => {
       await result.current.addTransaction(newTransaction);
@@ -92,7 +84,7 @@ describe("useTransactions", () => {
 
     // Setup initial transactions
     mockedGetTransactions.mockResolvedValue([transactionMock]);
-    const { result } = renderHook(() => useTransactions(loaderRef));
+    const { result } = renderHook(() => useTransactions());
 
     await act(async () => {
       await result.current.fetchTransactions({ page: 1, beneficiary: "" });
@@ -108,18 +100,24 @@ describe("useTransactions", () => {
     expect(result.current.transactions).toHaveLength(0);
   });
 
-  it("should handle errors gracefully", async () => {
-    const errorMessage = "An error occurred";
-    mockedGetTransactions.mockRejectedValue(new Error(errorMessage));
-    (handleError as jest.Mock).mockImplementation(() => {});
+  it("should throw fetchTransactions error", async () => {
+    const errorMessage = "Fetch error";
 
-    const { result } = renderHook(() => useTransactions(loaderRef));
+    (getTransactions as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
+    const { result } = renderHook(() => useTransactions());
+
+    let error: Error | undefined;
     await act(async () => {
-      await result.current.fetchTransactions({ page: 1, beneficiary: "" });
+      try {
+        await result.current.fetchTransactions({ page: 1, beneficiary: "" });
+      } catch (e) {
+        error = e as Error;
+      }
     });
 
-    expect(handleError).toHaveBeenCalledWith(new Error(errorMessage));
+    expect(error).toBeInstanceOf(Error);
+    expect(error?.message).toBe(errorMessage);
     expect(result.current.error).toBe(errorMessage);
   });
 });

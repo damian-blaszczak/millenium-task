@@ -19,6 +19,7 @@ import {
   Center,
   StyledLoaderContainer
 } from "./App.styled";
+import { handleError } from "./utils";
 
 const Table = lazy(() => import("./components/Table/Table"));
 
@@ -37,7 +38,7 @@ const App = () => {
     transactions,
     filteredTransactions,
     error
-  } = useTransactions(loaderRef);
+  } = useTransactions();
 
   useInfinityScroll({
     loaderRef,
@@ -48,11 +49,16 @@ const App = () => {
 
   const debouncedFetchTransactions = useMemo(
     () =>
-      debounce(({ target }: ChangeEvent<HTMLInputElement>) => {
-        return fetchTransactions({
-          beneficiary: target.value || undefined,
-          page: 1
-        });
+      debounce(async ({ target }: ChangeEvent<HTMLInputElement>) => {
+        try {
+          const transactions = await fetchTransactions({
+            beneficiary: target.value || undefined,
+            page: 1
+          });
+          return transactions;
+        } catch (error) {
+          handleError(error);
+        }
       }, 300),
     [fetchTransactions]
   );

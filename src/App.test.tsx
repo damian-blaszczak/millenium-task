@@ -40,8 +40,6 @@ jest.mock("./utils/debounce", () => ({
 }));
 
 describe("App Component", () => {
-  const mockLoaderRef = { current: document.createElement("div") };
-
   beforeEach(() => {
     (useTransactions as jest.Mock).mockReturnValue(useTransactionsMock);
     (useInfinityScroll as jest.Mock).mockImplementation(() => {});
@@ -72,7 +70,7 @@ describe("App Component", () => {
   it("calls fetchTransactions when searching for a beneficiary", async () => {
     const fetchTransactionsMock = jest.fn();
     (useTransactions as jest.Mock).mockReturnValue({
-      ...useTransactions(mockLoaderRef),
+      ...useTransactions(),
       fetchTransactions: fetchTransactionsMock
     });
 
@@ -91,7 +89,7 @@ describe("App Component", () => {
 
   it("shows loading indicator when fetching transactions", () => {
     (useTransactions as jest.Mock).mockReturnValue({
-      ...useTransactions(mockLoaderRef),
+      ...useTransactions(),
       loading: true
     });
 
@@ -103,7 +101,7 @@ describe("App Component", () => {
 
   it("displays error message when error occurs", () => {
     (useTransactions as jest.Mock).mockReturnValue({
-      ...useTransactions(mockLoaderRef),
+      ...useTransactions(),
       error: "An error occurred"
     });
 

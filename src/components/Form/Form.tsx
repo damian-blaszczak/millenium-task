@@ -1,10 +1,15 @@
-import { ChangeEvent, FormEvent, memo, useState } from "react";
+import { ChangeEvent, FormEvent, memo, useRef, useState } from "react";
 import { Input } from "../Input/Input";
 import { Button } from "../Button/Button";
 import { handleError } from "../../utils";
 import { IFormField } from "../../types";
 import { Loader } from "../Loader/Loader";
 import { StyledForm, StyledText } from "./Form.styled";
+
+const FORM_STATUSES = {
+  SUCCESS: "Submitted successfully",
+  ERROR: "An error occurred"
+};
 
 export const Form = memo(
   <T extends Record<string, unknown>>({
@@ -20,6 +25,7 @@ export const Form = memo(
   }) => {
     const [formData, setFormData] = useState(initialData);
     const [formSubmitResult, setFormSubmitResult] = useState("");
+    const formRef = useRef<HTMLFormElement>(null);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.target;
@@ -39,9 +45,11 @@ export const Form = memo(
       };
       try {
         await onSubmit(data);
-        setFormSubmitResult("Submitted successfully");
+        setFormSubmitResult(FORM_STATUSES.SUCCESS);
+        formRef.current?.reset();
+        setFormData(initialData);
       } catch (error) {
-        setFormSubmitResult("An error occurred");
+        setFormSubmitResult(FORM_STATUSES.ERROR);
         handleError(error);
       } finally {
         setTimeout(() => {
@@ -51,7 +59,7 @@ export const Form = memo(
     };
 
     return (
-      <StyledForm onSubmit={handleSubmit}>
+      <StyledForm ref={formRef} onSubmit={handleSubmit}>
         {fields.map((field) => (
           <Input
             key={field.name}
@@ -66,7 +74,7 @@ export const Form = memo(
           text={submitting ? <Loader $size={16} /> : "Submit"}
           aria-label="Submit form"
         />
-        <StyledText $submitted={Boolean(formSubmitResult)}>
+        <StyledText $submitted={formSubmitResult !== FORM_STATUSES.ERROR}>
           {formSubmitResult}
         </StyledText>
       </StyledForm>

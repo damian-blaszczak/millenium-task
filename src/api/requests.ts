@@ -1,5 +1,5 @@
 import { IGetTransactionsParams, ITransaction } from "../types";
-import { buildUrlWithParams, handleError, normalizeData } from "../utils";
+import { buildUrlWithParams, normalizeData } from "../utils";
 import { urls } from "./urls";
 
 export const getTransactions = async ({
@@ -13,7 +13,7 @@ export const getTransactions = async ({
     );
     return response.json();
   } catch (error) {
-    handleError(error);
+    throw error;
   }
 };
 
@@ -31,7 +31,7 @@ export const postTransaction = async (
     });
     return response.json();
   } catch (error) {
-    handleError(error);
+    throw error;
   }
 };
 
@@ -41,6 +41,6 @@ export const deleteTransaction = async (transactionId: number) => {
       method: "DELETE"
     });
   } catch (error) {
-    handleError(error);
+    throw error;
   }
 };
